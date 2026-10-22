@@ -77,7 +77,10 @@ function App() {
 
       setError(null);
       setResult(
-        cronstrue.toString(interval.stringify(), { use24HourTimeFormat: true }),
+        cronstrue.toString(interval.stringify(), {
+          use24HourTimeFormat: true,
+          trimHoursLeadingZero: true,
+        }),
       );
 
       setNextIntervals(

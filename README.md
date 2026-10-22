@@ -11,7 +11,7 @@ AC 2: Results update as the user types, debounced, no submit button required.
 AC 3: Leading/trailing whitespace is ignored, multiple spaces between fields are treated as one.
 
 Description
-AC 4: For a valid expression, a region labelled "Description" shows the `cronstrue` text in 24-hour format (e.g: "At 9:00, Monday through Friday")
+AC 4: For a valid expression, a region labelled "Description" shows the `cronstrue` text in 24-hour format (e.g: "At 09:00, Monday through Friday")
 
 Next runs
 AC 5: For a valid expression, a list labelled "Next runs" shows exactly 5 upcoming run times, in chronological order.
