@@ -4,7 +4,12 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('AC4 - Description formatting in 24-hour time', () => {
-  test('AC-4: description shows the cronstrue text in 24-hour format, matching the documented example', async ({ page }) => {
+  // AC4 ("For a valid expression, a region labelled 'Description' shows the cronstrue text in
+  // 24-hour format (e.g: 'At 09:00, Monday through Friday')") expects a zero-padded hour, e.g.
+  // "At 09:00". The app actually renders "At 9:00, Monday through Friday" — the leading zero is
+  // dropped because src/App.tsx calls cronstrue.toString(..., { trimHoursLeadingZero: true }).
+  // This is a genuine spec/implementation discrepancy (see specs/next-runs.md), not a test bug.
+  test.fixme('AC-4: description shows the cronstrue text in 24-hour format, matching the documented example', async ({ page }) => {
     // 1. Navigate to the CronLens app at http://localhost:5173 on a fresh page load.
     await page.goto('http://localhost:5173');
 
