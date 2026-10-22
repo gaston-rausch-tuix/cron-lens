@@ -14,12 +14,9 @@ test.describe('AC4 - Description formatting in 24-hour time', () => {
     await input.fill('0 9 * * 1-5');
 
     // 3. Wait briefly for the debounced update to complete.
-    //    - expect: A region labelled 'Description' is visible.
-    //    - expect: Its text reflects 24-hour time (the app trims the leading zero on
-    //      single-digit hours, so it renders "At 9:00" rather than "At 09:00").
     const description = page.getByLabel('Description');
     await expect(description).toBeVisible();
-    await expect(description).toContainText('At 9:00');
+    await expect(description).toContainText('At 09:00');
     await expect(description).toContainText('Monday through Friday');
   });
 
