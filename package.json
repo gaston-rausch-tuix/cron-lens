@@ -7,11 +7,20 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:report": "playwright show-report",
+    "test:e2e:install": "playwright install --with-deps chromium",
+    
+    "agents:init": "playwright init-agents --loop=claude"
   },
   "dependencies": {
     "cron-parser": "^5.10.2",
     "cronstrue": "^3.33.0",
+    "framer-motion": "^14.4.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },

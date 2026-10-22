@@ -13,7 +13,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #111318;
     --surface: #1a1d23;
     --text: #e5e7eb;
@@ -23,6 +23,35 @@
     --error: #f87171;
     --error-bg: #2a1616;
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #111318;
+  --surface: #1a1d23;
+  --text: #e5e7eb;
+  --text-muted: #9ca3af;
+  --border: #2b2f38;
+  --accent: #818cf8;
+  --error: #f87171;
+  --error-bg: #2a1616;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-new(root) {
+  clip-path: circle(0 at var(--reveal-x) var(--reveal-y));
+  animation: cronlens-reveal 0.5s ease-in-out forwards;
+}
+
+@keyframes cronlens-reveal {
+  to {
+    clip-path: circle(var(--reveal-radius) at var(--reveal-x) var(--reveal-y));
   }
 }
 
@@ -37,6 +66,7 @@ body {
     Arial, sans-serif;
   padding: 24px;
   box-sizing: border-box;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 .panel {
@@ -51,6 +81,8 @@ body {
   flex-direction: column;
   gap: 24px;
   box-sizing: border-box;
+  transition: background-color 0.25s ease, border-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
 .panel-header h1 {
@@ -88,10 +120,28 @@ body {
   background: var(--bg);
   color: var(--text);
   outline: none;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease,
+    background-color 0.25s ease, color 0.25s ease;
 }
 
 .expression-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
+}
+
+.timezone-select {
+  font-size: 0.95rem;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease,
+    background-color 0.25s ease, color 0.25s ease;
+}
+
+.timezone-select:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 25%, transparent);
 }
@@ -116,6 +166,7 @@ body {
   padding: 8px 12px;
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
   font-size: 0.85rem;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
 }
 
 .runs-list li:first-child {
@@ -136,4 +187,89 @@ body {
   background: var(--error-bg);
   color: var(--error);
   font-size: 0.9rem;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.hint {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.theme-toggle {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 10;
+  width: 38px;
+  padding: 6px 7px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--surface) 92%, black 8%),
+    color-mix(in srgb, var(--surface) 100%, white 4%)
+  );
+  box-shadow: var(--shadow), inset 0 1px 1px rgba(255, 255, 255, 0.25),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: background-color 0.25s ease, border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.theme-toggle:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 35%, transparent),
+    inset 0 1px 1px rgba(255, 255, 255, 0.25);
+}
+
+.theme-toggle__screw {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.4);
+  opacity: 0.6;
+}
+
+.theme-toggle__track {
+  position: relative;
+  width: 14px;
+  height: 40px;
+  border-radius: 6px;
+  background: var(--bg);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+  overflow: visible;
+}
+
+.theme-toggle__glow {
+  position: absolute;
+  inset: -10px -14px;
+  border-radius: 16px;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--accent) 45%, transparent),
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+.theme-toggle__paddle {
+  position: absolute;
+  left: 50%;
+  width: 24px;
+  height: 20px;
+  margin-left: -12px;
+  border-radius: 5px;
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--accent) 80%, white 20%),
+    var(--accent)
+  );
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.35);
 }
