@@ -2,6 +2,8 @@
 CronLens is a tiny client-only developer tool. It provides you a schedule meaning based on a cron expression input.
 For instance: `*/15 * * * *` -> Every 15 minutes
 
+> This repository exists as a guide for [Playwright](https://playwright.dev/), showing how to plan, generate, run, and heal end-to-end tests against a small real app. It's used as the companion example in a blog post about testing with Playwright.
+
 ### Acceptance Criteria
 Expression Input
 AC 1: The page has a text input labelled "Cron expression".
