@@ -7,11 +7,11 @@ import cronstrue from "cronstrue";
 const getRelativeTime = (futureTime: number): string => {
   const nextTime = (futureTime - Date.now()) / (1000 * 60 * 60);
 
-  if(nextTime > 24) {
+  if (nextTime > 24) {
     return `Runs in ${Math.round(nextTime / 24)} days`;
   } else if (nextTime > 1) {
     return `Runs in ${Math.round(nextTime)} hours`;
-  } else if((nextTime * 60) > 1){
+  } else if (nextTime * 60 > 1) {
     return `Runs in ${Math.round(nextTime * 60)} minutes`;
   }
   return `Runs in ${Math.round(nextTime * 60 * 60)} seconds`;
@@ -21,7 +21,7 @@ function App() {
   const [nextIntervals, setNextIntervals] = useState<string[]>([]);
   const [result, setResult] = useState("");
   const [error, setError] = useState<string | null>("");
-  let timeRef = useRef<number | null>(null);
+  const timeRef = useRef<number | null>(null);
 
   const evaluateExpression = (expression: string) => {
     try {
@@ -48,7 +48,7 @@ function App() {
   };
 
   const sanityExpression = (expression: string): string => {
-    if (!!expression) {
+    if (expression) {
       const newExpression = expression.replaceAll("  ", " ");
       return newExpression.trim();
     }
@@ -74,6 +74,7 @@ function App() {
           className="expression-input"
           onInputCapture={(e) => onChange(e.currentTarget.value)}
           type="text"
+          aria-label="Cron expression"
           placeholder="*/15 9-17 * * 1-5"
         />
       </div>
@@ -81,7 +82,7 @@ function App() {
       {result && (
         <div className="field">
           <label htmlFor="description">Description</label>
-          <p id="description" className="description">
+          <p id="description" className="description" aria-label="Description">
             {result}
           </p>
         </div>
